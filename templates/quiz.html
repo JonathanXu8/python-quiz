@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Syntax Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🐍 Python Syntax Quiz</h1>
+
+    <p><strong>Question:</strong></p>
+    <pre>{{ question }}</pre>
+
+    <form method="POST">
+        <textarea name="answer" id="answer-box" rows="4" placeholder="Type your answer here..." autofocus required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if feedback %}
+        <p class="feedback">{{ feedback }}</p>
+    {% endif %}
+
+    <p class="score">Score: {{ score }} / {{ total }}</p>
+</div>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
