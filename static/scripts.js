@@ -40,3 +40,32 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const textarea = document.getElementById("answer-box");
+  const form = textarea.form;
+
+  textarea.addEventListener("keydown", (e) => {
+    // If Enter is pressed without Shift or Ctrl
+    if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey) {
+      e.preventDefault(); // prevent adding newline
+
+      // Check if we are in solution mode by looking for OK button text
+      const submitBtn = form.querySelector("button[type=submit]");
+      if (submitBtn && submitBtn.textContent.trim().toLowerCase() === "ok") {
+        form.submit();
+      }
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const feedback = document.querySelector(".feedback");
+
+  if (feedback && feedback.textContent.includes("✅ Correct!")) {
+    setTimeout(() => {
+      feedback.textContent = "";
+    }, 1000); // clears after 3 seconds
+  }
+});

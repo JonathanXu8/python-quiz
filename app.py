@@ -37,7 +37,7 @@ def generate_if_question():
 def generate_elif_else_question():
     a, b = random.randint(1, 5), random.randint(6, 10)
     return "generate_elif_else_question", "Write an if-elif-else block: if n > {}, elif n == {}, else.".format(a, b), (
-        f"if n > {a}:\n    pass\nelif n == {b}:\n    pass\nelse:\n    pass"
+        f"if n > {a}:\n\tpass\nelif n == {b}:\n\tpass\nelse:\n\tpass"
     )
 
 # -- loops -- #
@@ -49,7 +49,7 @@ def generate_loop_question():
 def generate_reverse_loop_question():
     start = random.randint(5, 10)
     end = random.randint(1, 4)
-    return "generate_reverse_loop_question", f"Write a for loop that counts down from {start} to {end}.", f"for i in range({start}, {end}, -1):"
+    return "generate_reverse_loop_question", f"Write a for loop that counts down from {start} to {end} inclusive.", f"for i in range({start}, {end-1}, -1):"
 
 def generate_loop_arr():
     return "generate_loop_arr", "Loop through all the elements for list arr", "for x in arr:"
@@ -58,16 +58,16 @@ def generate_loop_arrindex():
     return "generate_loop_arrindex", "Loop through all the elements with their indices for list arr", "for x, i in enumerate(arr):"
 
 def generate_loop_zip():
-    return "generate_loop_zip", "Loop through arrays nums1 and nums2 simultaneously with unpacking", "for x, y in zip(nums1, nums2)"
+    return "generate_loop_zip", "Loop through arrays nums1 and nums2 simultaneously with unpacking", "for x, y in zip(nums1, nums2):"
 
 def generate_loop_dict():
-    return "generate_loop_dict", "Loop the keys of dictionary myMap ", "for key in myMap"
+    return "generate_loop_dict", "Loop the keys of dictionary myMap ", "for key in myMap:"
 
 def generate_loop_dictvalues():
-    return "generate_loop_dictvalues", "Loop the values of dictionary myMap ", "for val in myMap.values()"
+    return "generate_loop_dictvalues", "Loop the values of dictionary myMap ", "for val in myMap.values():"
 
 def generate_loop_dictkeyvalues():
-    return "generate_loop_dictkeyvalues", "Loop the keys and values of dictionary myMap ", "for key, val in myMap.items()"
+    return "generate_loop_dictkeyvalues", "Loop the keys and values of dictionary myMap ", "for key, val in myMap.items():"
 
 # -- math -- #
 def generate_math_floor_question():
@@ -100,12 +100,19 @@ def genereate_math_inf_question():
 def genereate_math_neginf_question():
     return "genereate_math_neginf_question" , "Set a variable x to -infinity", 'x = float("-inf")'
 
+def generate_math_min():
+    return "generate_math_min", "take the min of variables a and b", "min(a, b)"
+
+def generate_math_min():
+    return "generate_math_max", "take the max of variables a and b", "max(a, b)"
+
 # -- arrays -- #
 def generate_list_empty():
     return "generate_list_empty", "Create an empty list named arr", "arr = []"
 
 def generate_list_question():
-    values = random.sample(range(1, 10), range(3, 5))
+    size = random.randint(3, 4)  # this picks either 3 or 4
+    values = random.sample(range(1, 10), size)
     return "generate_list_question", f"Create a list named arr with values {values}.", f"arr = {values}"
 
 def generate_list_filled():
@@ -133,7 +140,7 @@ def generate_list_last():
 
 def generate_list_range():
     n = random.randint(3, 10)
-    return "generate_list_last", f"Get the first {n} elements from list arr", f"arr[0:{n+1}]"
+    return "generate_list_last", f"Get the first {n} elements from list arr", f"arr[0:{n}]"
 
 def generate_list_reverse():
     return "generate_list_reverse", f"Reverse list arr", "arr.reverse()"
@@ -243,6 +250,10 @@ def generate_set_comp_question():
     end = random.randint(3, 6)
     return "generate_set_comp_question", f"Create a set with values from 0 to {end - 1} using set comprehension.", f"{{i for i in range({end})}}"
 
+def generate_set_to_graph():
+    return "generate_set_to_graph", "Convert set mySet to a list", "list(mySet)"
+
+
 # -- hashmaps -- #
 
 def generate_hashset_init():
@@ -277,12 +288,13 @@ def generate_tuple_question():
 
 def generate_tuple_key_question():
     key = (random.randint(1, 3), random.randint(4, 6))
-    return "generate_tuple_key_question", f"Use tuple {key} as a key with value 3 in myMap.", f"myMap = {{{key}: 3}}"
+    return "generate_tuple_key_question", f"Use tuple {key} as a key with value 3 at initialize myMap.", f"myMap = {{{key}: 3}}"
 
 def generate_tuple_unpack_question():
     values = random.sample(range(1, 10), 3)
     prompt = f"Given the tuple `tup = {tuple(values)}`, unpack it into variables a, b, and c."
     correct_answers = [
+        f"a, b, c = tup",
         f"a, b, c = {tuple(values)}",
         f"(a, b, c) = {tuple(values)}"
     ]
@@ -305,17 +317,42 @@ def generate_heap_push_question():
     val = random.randint(1, 20)
     return "generate_heap_push_question", f"Push {val} into minHeap.", f"heapq.heappush(minHeap, {val})"
 
-def generate_heap_peek_question():
+def generate_maxheap_push_question():
+    val = random.randint(1, 20)
+    return "generate_maxheap_push_question", f"Push {val} into maxHeap.", f"heapq.heappush(maxHeap, -{val})"
+
+def generate_minheap_peek_question():
     values = sorted(random.sample(range(1, 20), 4))
     prompt = (
         f"Given a min heap named `minHeap` containing the values {values}, "
-        f"get smallest value without removing it."
+        f"get the smallest value without removing it (peek)."
     )
     correct_answers = [
         "minHeap[0]"
     ]
-    return "generate_heap_peek_question", prompt, correct_answers[0]
+    return "generate_minheap_peek_question", prompt, correct_answers[0]
 
+def generate_maxheap_peek_question():
+    values = sorted(random.sample(range(1, 20), 4))
+    prompt = (
+        f"Given a max heap named `maxHeap` containing the values {values}, "
+        f"get the largest value without removing it (peek)."
+    )
+    correct_answers = [
+        "-1 * maxHeap[0]"
+    ]
+    return "generate_minheap_peek_question", prompt, correct_answers[0]
+
+def generate_minheap_pop_question():
+    values = sorted(random.sample(range(1, 20), 4))
+    prompt = (
+        f"Given a heap named `h` containing the values {values}, "
+        f"write a line of code that removes and returns the top value (pop)."
+    )
+    correct_answers = [
+        "heapq.heappop(h)"
+    ]
+    return "generate_minheap_pop_question", prompt, correct_answers[0]
 
 def generate_heapify_question():
     return "generate_heapify_question", "Turn arr into a heap in-place.", "heapq.heapify(arr)"
@@ -340,29 +377,75 @@ generators = [
     generate_multiple_assign_question,
     generate_increment_question,
     generate_if_question,
-    generate_elif_else_question,
+    #generate_elif_else_question,
     generate_loop_question,
     generate_reverse_loop_question,
+    generate_loop_arr,
+    generate_loop_arrindex,
+    generate_loop_zip,
+    generate_loop_dict,
+    generate_loop_dictvalues,
+    generate_loop_dictkeyvalues,
     generate_math_floor_question,
+    generate_math_ceil_question,
+    generate_math_sqrt_question,
+    generate_math_pow_question,
+    generate_math_mod_question,
     generate_math_fmod_question,
+    genereate_math_inf_question,
+    genereate_math_neginf_question,
+    generate_list_empty,
     generate_list_question,
-    generate_list_stack_question,
+    generate_list_filled,
+    generate_list_add,
     generate_list_insert_question,
     generate_list_unpack_question,
+    generate_list_element,
+    generate_list_last,
+    generate_list_range,
+    generate_list_reverse,
+    generate_list_sortasc,
+    generate_list_sortdes,
+    generate_list_customsort,
+    generate_list_len,
+    generate_list_comprehension,
+    generate_list_2d,
+    generate_list_2dget,
+    generate_stack_empty,
+    generate_stack_push,
+    generate_stack_pop,
     generate_string_slice_question,
     generate_string_add_question,
     generate_ord_question,
     generate_join_question,
     generate_deque_init_question,
+    generate_deque_create,
+    generate_deque_appendright,
     generate_deque_appendleft_question,
+    generate_deque_popright,
+    generate_deque_popleft,
+    generate_set_init,
     generate_set_add_question,
+    generate_set_remove,
+    generate_set_contains,
+    generate_set_fromlst,
     generate_set_comp_question,
+    generate_hashset_init,
+    generate_hashset_filled,
     generate_dict_add_question,
+    generate_hashset_remove,
+    generate_hashset_contains,
     generate_dict_comp_question,
     generate_tuple_question,
     generate_tuple_key_question,
+    generate_tuple_unpack_question,
     generate_heapq_import_question,
+    generate_heap_init_question,
     generate_heap_push_question,
+    generate_maxheap_push_question,
+    generate_minheap_peek_question,
+    generate_maxheap_peek_question,
+    generate_minheap_pop_question,
     generate_heapify_question,
     generate_function_question,
     generate_class_question,
@@ -374,21 +457,53 @@ generators = [
 def quiz():
     if request.method == "POST":
         user_answer = request.form["answer"].strip()
-        expected = session.get("expected_answer", "")
+        
+        # If showing solution and user clicks OK, clear all relevant session keys
+        if session.get("show_solution", False):
+            session.pop("last_answer", None)
+            session.pop("last_expected", None)
+            session.pop("feedback", None)
+            session["show_solution"] = False
+            return redirect(url_for("quiz"))
+
+        expected_answers = session.get("expected_answers", [])
         question_key = session.get("question_key")
         session["total"] = session.get("total", 0) + 1
 
-        if user_answer == expected:
+        if any(user_answer == ans for ans in expected_answers):
             session["score"] = session.get("score", 0) + 1
             question_stats[question_key]["correct"] += 1
-            feedback = "✅ Correct!"
+            session["feedback"] = "✅ Correct!"
+            # Clear previous answer & expected because answer was correct
+            session.pop("last_answer", None)
+            session.pop("last_expected", None)
+            session["show_solution"] = False
         else:
             question_stats[question_key]["incorrect"] += 1
-            feedback = f"❌ Incorrect. Expected: {expected}"
+            session["feedback"] = "❌ Incorrect."
+            session["last_answer"] = user_answer
+            session["last_expected"] = expected_answers[0] if expected_answers else ""
+            session["show_solution"] = True
+            return redirect(url_for("quiz"))
 
-        session["feedback"] = feedback
         return redirect(url_for("quiz"))
 
+    # GET request: render page with current or new question
+
+    # If currently showing solution (user must click OK)
+    if session.get("show_solution", False):
+        return render_template(
+            "quiz.html",
+            question=session.get("last_prompt", ""),
+            user_answer=session.get("last_answer", ""),
+            expected=session.get("last_expected", ""),
+            show_solution=True,
+            feedback=session.get("feedback", ""),
+            score=session.get("score", 0),
+            total=session.get("total", 0)
+        )
+
+    # Otherwise pick new question weighted by past results
     def weighted_choice():
         weights = []
         for gen in generators:
@@ -396,8 +511,7 @@ def quiz():
             stats = question_stats[key]
             wrong = stats["incorrect"] + 1
             right = stats["correct"] + 1
-            weight = wrong / right
-            weights.append(weight)
+            weights.append(wrong / right)
         total_weight = sum(weights)
         r = random.uniform(0, total_weight)
         upto = 0
@@ -408,18 +522,32 @@ def quiz():
         return random.choice(generators)
 
     gen = weighted_choice()
-    key, prompt, answer = gen()
-    session["expected_answer"] = answer
+    key, prompt, answers = gen()
+    # Normalize answers to list
+    answers = answers if isinstance(answers, list) else [answers]
+
+    session["expected_answers"] = answers
+    session["expected_answer"] = answers[0]
     session["question_key"] = key
-    feedback = session.pop("feedback", "")
+    session["last_prompt"] = prompt
+    session["show_solution"] = False
 
     return render_template(
         "quiz.html",
         question=prompt,
-        feedback=feedback,
+        user_answer="",
+        expected="",
+        show_solution=False,
+        feedback=session.pop("feedback", ""),
         score=session.get("score", 0),
         total=session.get("total", 0)
     )
+
+@app.route("/reset")
+def reset():
+    session.clear()  # Clears all session data for this user
+    return redirect(url_for("quiz"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
