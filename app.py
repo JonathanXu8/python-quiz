@@ -281,6 +281,9 @@ def generate_dict_comp_question():
     end = random.randint(3, 5)
     return "generate_dict_comp_question", f"Create a dict mapping i to 2*i for i in 0 to {end - 1}.", f"{{i: 2*i for i in range({end})}}"
 
+def generate_dict_equals():
+    return "generate_dict_equals", "Compare 2 dictionaries a and b for equality", "a == b"
+
 # -- tuples -- #
 def generate_tuple_question():
     values = tuple(random.sample(range(1, 9), 3))
