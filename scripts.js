@@ -34,7 +34,7 @@ function showQuestion() {
     document.getElementById('question').textContent = question.question;
     document.getElementById('answer').value = '';
     document.getElementById('feedback').style.display = 'none';
-    questionAttempted = false; // Reset attempt flag for new question
+    questionAttempted = false;
     updateStats();
 }
 
@@ -146,10 +146,10 @@ document.getElementById('answer').addEventListener('keydown', function(e) {
     }
 });
 
-// Initialize
-showQuestion();
-
 // Add on functions to buttons
 document.querySelector('.check-btn').addEventListener('click', check);
 document.querySelector('.hint-btn').addEventListener('click', hint);
 document.querySelector('.next-btn').addEventListener('click', next);
+
+// Initialize
+showQuestion();
